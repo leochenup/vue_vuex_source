@@ -1,28 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    {{ $store.state.number }}
+    {{ $store.getters.myAge }}
+    {{ $store.state.a.c.c }}
+    {{ computedC }}
+
+    <button @click="add">+</button>
+    <button @click="decline">-</button>
+    <button @click="asyncDeclineC">Async -</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  data() {
+    return {};
+  },
+  methods: {
+    add() {
+      this.$store.commit("syncAdd", 1);
+    },
+    decline() {
+      this.$store.commit("syncDecline", 1);
+    },
+    AsyncDecline() {
+      this.$store.dispatch("asyncDecline", 1);
+    },
+    ...mapActions(["asyncDeclineC"]),
+  },
+  mounted() {
+    console.log(this.$store);
+  },
+  computed: mapGetters(["computedC"]),
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
